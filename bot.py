@@ -39,7 +39,7 @@ async def on_message(message):
 			return await delete(message, index, 0, 0, "message.content")
 		index += 1
 	index = 0
-	if not message.embeds:
+	if not message.embeds and "http" in message.content:
 		await asyncio.sleep(1)
 		message = await message.channel.fetch_message(message.id)
 	for elem in embed_blacklist:
