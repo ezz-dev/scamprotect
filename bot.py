@@ -16,15 +16,16 @@ with open("blacklist.txt") as file:
 
 
 @bot.command()
-@commands.is_owner()
-async def exc(ctx, *, command):
-	eval(command, locals(), globals())
-
-
-@bot.command()
 async def invite(ctx):
 	embed = discord.Embed(description=f":small_blue_diamond: Add me to your server: [[Click]](https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=8&scope=bot)")
 	await ctx.send(embed=embed)
+
+
+@bot.event
+async def on_ready():
+	print("Logged in.")
+	presence = f'sp!invite | [{len(bot.guilds)}]'
+	await bot.change_presence(status=discord.Status.dnd, activity=discord.Game(presence))
 
 
 @bot.event
@@ -70,18 +71,6 @@ async def delete(message, index, indexx, rindex, blkey):
 	await message.channel.send(embed=embed)
 	embed = discord.Embed(description=f":warning: **Your message has been deleted**.\n```{message.content}```")
 	await message.author.send(embed=embed)
-
-
-@bot.event
-async def on_ready():
-	print("Logged in.")
-	presence = f'sp!invite | [{len(bot.guilds)}]'
-	await bot.change_presence(status=discord.Status.dnd, activity=discord.Game(presence))
-
-
-@bot.event
-async def on_command_error(ctx, error):
-	await ctx.send(f'```{error}```')
 
 
 bot.run(Token)
