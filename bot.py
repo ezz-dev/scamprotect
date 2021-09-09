@@ -1,14 +1,13 @@
 import discord, asyncio, re
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='sp!',
-				   intents=discord.Intents().all(),
-				   case_insensitive=True,
-				   help_command=None)
+bot = commands.Bot(command_prefix='!', intents=discord.Intents().all(),
+		   case_insensitive=True, help_command=None)
 Token = "TOKEN"
-embed_blacklist = ["discord nitro бесплатно на 3 месяца от steam", "сделайте discord ещё круче с nitro", "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam. upgrade your emoji, enjoy bigger file uploads, stand out in your favorite discords, and more."]
-patterns_blacklist = [r"i'm leaving.*skin.*https:\/\/", r"i'm leaving.*skin.*http:\/\/"]
-reasons = ["blacklist.link:{}", "blacklist.embed:{}", "blacklist.pattern:{}"]
+embed_blacklist = ["discord nitro бесплатно на 3 месяца от steam", "сделайте discord ещё круче с nitro",
+		   "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam"]
+patterns_blacklist = [r"i'm leaving.*skin.*https:\/\/", r"i'm leaving.*skin.*http:\/\/", r"i'm leaving.*inventory.*http"]
+reasons = ["blacklist.link: {}", "blacklist.embed: {}", "blacklist.pattern: {}"]
 
 with open("blacklist.txt") as file:
 	_text_ = file.read()
@@ -17,14 +16,14 @@ with open("blacklist.txt") as file:
 
 @bot.command()
 async def invite(ctx):
-	embed = discord.Embed(description=f":small_blue_diamond: Add me to your server: [[Click]](https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=8&scope=bot)")
+	embed = discord.Embed(description=f":small_blue_diamond: Add me to your server: [[Invite]](https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=8&scope=bot)")
 	await ctx.send(embed=embed)
 
 
 @bot.event
 async def on_ready():
 	print("Logged in.")
-	presence = f'sp!invite | [{len(bot.guilds)}]'
+	presence = f'{bot.command_prefix}invite | [{len(bot.guilds)}]'
 	await bot.change_presence(status=discord.Status.dnd, activity=discord.Game(presence))
 
 
