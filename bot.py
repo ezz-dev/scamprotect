@@ -70,7 +70,7 @@ async def delete(message, index, indexx, rindex, blkey):
 	embed = discord.Embed(description=f":warning: Deleted message from user {message.author.mention}.\n \➡ **Reason**: **`{reason}`**.")
 	await message.channel.send(embed=embed)
 	embed = discord.Embed(description=f":warning: **Your message has been deleted**.\n```{message.content}```")
-	embed.set_footer(text="Most likely, you have become a victim of hacking and your account has been used for scam attacks. To prevent this from happening again, delete BetterDiscord from your PC and use a reliable antivirus.")
+	embed.set_footer(text="Most likely, you have become a victim of hacking and your account has been used for scam attacks. To prevent this from happening again, please change your password, delete BetterDiscord from your PC and use a reliable antivirus.")
 	await message.author.send(embed=embed)
 
 
