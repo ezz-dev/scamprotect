@@ -7,7 +7,7 @@ Token = "TOKEN"
 embed_blacklist = ["discord nitro бесплатно на 3 месяца от steam", "сделайте discord ещё круче с nitro",
 		   "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam"]
 patterns_blacklist = [r"i'm leaving.*skin.*http", r"i'm leaving.*inventory.*http",
-                      r"i am leaving.*trade.*http", "i leave.*trade.*http"]
+                      r"i am leaving.*trade.*http", r"i leave.*trade.*http"]
 reasons = ["blacklist.link: {}", "blacklist.embed: {}", "blacklist.pattern: {}"]
 
 with open("blacklist.txt") as file:
