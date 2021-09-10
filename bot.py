@@ -40,7 +40,7 @@ async def on_message(message):
 		if elem in message.content and elem != "":
 			return await delete(message, index, 0, 0, "message.content")
 		index += 1
-        index = 0
+	index = 0
 	for elem in patterns_blacklist:
 		# Check message for suspicious pattern
 		if re.findall(elem, message.content.lower()):
@@ -52,7 +52,7 @@ async def on_message(message):
 		await asyncio.sleep(1)
 		message = await message.channel.fetch_message(message.id)
 	index = 0
-        for elem in embed_blacklist:
+	for elem in embed_blacklist:
 		# Scan titles of all embeds in message
 		indexx = 0
 		for embed in message.embeds:
