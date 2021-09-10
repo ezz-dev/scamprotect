@@ -40,13 +40,19 @@ async def on_message(message):
 		if elem in message.content and elem != "":
 			return await delete(message, index, 0, 0, "message.content")
 		index += 1
-	index = 0
+        index = 0
+	for elem in patterns_blacklist:
+		# Check message for suspicious pattern
+		if re.findall(elem, message.content.lower()):
+			return await delete(message, index, 0, 2, "message.content")
+		index += 1
 	if not message.embeds and "http" in message.content:
 		# If message contains a link but doesn't have an embed,
 		# fetch this message again to get loaded (probably) embed
 		await asyncio.sleep(1)
 		message = await message.channel.fetch_message(message.id)
-	for elem in embed_blacklist:
+	index = 0
+        for elem in embed_blacklist:
 		# Scan titles of all embeds in message
 		indexx = 0
 		for embed in message.embeds:
@@ -62,12 +68,6 @@ async def on_message(message):
 			if elem in embed.description.lower() and elem != "":
 				return await delete(message, index, indexx, 1, "description")
 			indexx += 1
-		index += 1
-	index = 0
-	for elem in patterns_blacklist:
-		# Check message for suspicious pattern
-		if re.findall(elem, message.content.lower()):
-			return await delete(message, index, 0, 2, "message.content")
 		index += 1
 
 
