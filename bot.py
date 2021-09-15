@@ -5,7 +5,9 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents().all(),
 		   case_insensitive=True, help_command=None)
 Token = "TOKEN"
 embed_blacklist = ["discord nitro бесплатно на 3 месяца от steam", "сделайте discord ещё круче с nitro",
-		   "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam"]
+		   "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam",
+		   "discord nitro for 3 months with steam", "free discord nitro for 3 months from steam",
+		   "make discord even cooler with nitro"]
 patterns_blacklist = [r"i'm leaving.*skin.*http", r"i'm leaving.*inventory.*http",
                       r"i am leaving.*trade.*http", r"i leave.*trade.*http"]
 reasons = ["blacklist.link: {}", "blacklist.embed: {}", "blacklist.pattern: {}"]
@@ -34,40 +36,42 @@ async def on_message(message):
 	if message.author.bot:
 		return
 	await bot.process_commands(message)
+	await scan_message(message)
+
+
+async def scan_message(message):
 	index = 0
 	for elem in blacklist:
-		# Scan message for blacklisted links
-		if elem in message.content and elem != "":
+		if elem in message.content.lower() and elem != "":
 			return await delete(message, index, 0, 0, "message.content")
 		index += 1
 	index = 0
 	for elem in patterns_blacklist:
-		# Check message for suspicious pattern
 		if re.findall(elem, message.content.lower()):
 			return await delete(message, index, 0, 2, "message.content")
 		index += 1
 	if not message.embeds and "http" in message.content:
-		# If message contains a link but doesn't have an embed,
-		# fetch this message again to get loaded (probably) embed
 		await asyncio.sleep(1)
 		message = await message.channel.fetch_message(message.id)
+	for embed in message.embeds:
+		if await check_embed(embed, message):
+			return
+
+
+async def check_embed(embed, message):
 	index = 0
 	for elem in embed_blacklist:
-		# Scan titles of all embeds in message
 		indexx = 0
-		for embed in message.embeds:
+		try:
 			if elem in embed.title.lower() and elem != "":
 				return await delete(message, index, indexx, 1, "title")
-			indexx += 1
-		index += 1
-	index = 0
-	for elem in embed_blacklist:
-		# Scan descriptions of all embeds in message
-		indexx = 0
-		for embed in message.embeds:
+		except:
+			pass
+		try:
 			if elem in embed.description.lower() and elem != "":
 				return await delete(message, index, indexx, 1, "description")
-			indexx += 1
+		except:
+			pass
 		index += 1
 
 
