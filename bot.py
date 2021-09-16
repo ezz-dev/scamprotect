@@ -9,7 +9,8 @@ embed_blacklist = ["discord nitro бесплатно на 3 месяца от st
 		   "discord nitro for 3 months with steam", "free discord nitro for 3 months from steam",
 		   "make discord even cooler with nitro"]
 patterns_blacklist = [r"i'm leaving.*skin.*http", r"i'm leaving.*inventory.*http",
-                      r"i am leaving.*trade.*http", r"i leave.*trade.*http"]
+                      r"i am leaving.*trade.*http", r"i leave.*trade.*http",
+		      r"@everyone.*nitro.*free.*steam.*http"]
 reasons = ["blacklist.link: {}", "blacklist.embed: {}", "blacklist.pattern: {}"]
 
 with open("blacklist.txt") as file:
@@ -47,32 +48,33 @@ async def scan_message(message):
 		index += 1
 	index = 0
 	for elem in patterns_blacklist:
-		if re.findall(elem, message.content.lower()):
+		if re.findall(elem, message.content.lower().replace("\n", " ")):
 			return await delete(message, index, 0, 2, "message.content")
 		index += 1
 	if not message.embeds and "http" in message.content:
 		await asyncio.sleep(1)
 		message = await message.channel.fetch_message(message.id)
-	for embed in message.embeds:
-		if await check_embed(embed, message):
-			return
-
-
-async def check_embed(embed, message):
 	index = 0
+	for embed in message.embeds:
+		if await check_embed(embed, message, index):
+			return
+		index += 1
+
+
+async def check_embed(embed, message, index):
+	indexx = 0
 	for elem in embed_blacklist:
-		indexx = 0
 		try:
 			if elem in embed.title.lower() and elem != "":
 				return await delete(message, index, indexx, 1, "title")
 		except:
-			pass
+			return False
 		try:
 			if elem in embed.description.lower() and elem != "":
 				return await delete(message, index, indexx, 1, "description")
 		except:
-			pass
-		index += 1
+			return False
+		indexx += 1
 
 
 async def delete(message, index, indexx, rindex, blkey):
