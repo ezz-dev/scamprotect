@@ -38,3 +38,4 @@ discord-app.net
 discorclsteam.com
 steamdlscord.com
 discrod-app.ru
+discord-app.net
