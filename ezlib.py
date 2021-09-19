@@ -40,6 +40,7 @@ def get_prefix(key):
 	prefixes[key] = default_prefix
 	return default_prefix
 
+
 def set_prefix(key, prefix):
 	prefixes.get(id)
 	prefixes[key] = prefix
