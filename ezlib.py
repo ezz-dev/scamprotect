@@ -1,9 +1,9 @@
 import discord, re, pathlib, asyncio, json, requests
 
 embed_blacklist = ["discord nitro бесплатно на 3 месяца от steam", "сделайте discord ещё круче с nitro",
-		   		   "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam",
-		   		   "discord nitro for 3 months with steam", "free discord nitro for 3 months from steam",
-		   		   "make discord even cooler with nitro"]
+		   "3 months of discord nitro free from steam", "get 3 months of discord nitro free from steam",
+		   "discord nitro for 3 months with steam", "free discord nitro for 3 months from steam",
+		   "make discord even cooler with nitro"]
 patterns_blacklist = [r"i'm leaving.*skin.*http", r"i'm leaving.*inventory.*http",
                       r"i am leaving.*trade.*http", r"i leave.*trade.*http",
                       r"@everyone.*nitro.*free.*steam.*http", r"i am leaving.*skin.*take.*http.*"]
@@ -171,6 +171,6 @@ async def presence_loop(bot):
 	while True:
 		presence = f"{default_prefix}help | [{len(bot.guilds)}]"
 		await bot.change_presence(status=discord.Status.idle,
-								  activity=discord.Activity(name=presence,
-								  							type=discord.ActivityType.watching))
+					  activity=discord.Activity(name=presence,
+								    type=discord.ActivityType.watching))
 		await asyncio.sleep(10)
