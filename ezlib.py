@@ -6,7 +6,7 @@ embed_blacklist = ["discord nitro бесплатно на 3 месяца от st
 		   		   "make discord even cooler with nitro"]
 patterns_blacklist = [r"i'm leaving.*skin.*http", r"i'm leaving.*inventory.*http",
                       r"i am leaving.*trade.*http", r"i leave.*trade.*http",
-                      r"@everyone.*nitro.*free.*steam.*http"]
+                      r"@everyone.*nitro.*free.*steam.*http", r"i am leaving.*away.*skins.*http"]
 reasons = ["blacklist.link: {}", "blacklist.embed: {}", "blacklist.pattern: {}"]
 unix = int(pathlib.Path('bot.py').stat().st_mtime)
 
