@@ -123,7 +123,7 @@ async def check_embed(embed, message, index, notify=False, cid=None, dm=None):
 
 async def delete(message, index, indexx, rindex, blkey, notify: bool=False, cid=None, dm=None):
 	reason = reasons[rindex].format(f"{blkey}: {[indexx]}: {index}")
-	embed1 = discord.Embed(description=f"{danger} Deleted message from user {message.author.mention}.\n \➡ **Причина**: **`{reason}`**.",
+	embed1 = discord.Embed(description=f"{danger} Deleted message from user {message.author.mention}.\n 》 **Reason**: **`{reason}`**.",
 			       color=0xff6060)
 	embed2 = discord.Embed(description=f"{danger} **Your message has been deleted**.\n```{message.content}```",
 			       color=0xff6060)
