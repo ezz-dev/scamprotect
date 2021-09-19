@@ -31,7 +31,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-	msg = None
+	msg = error
 	if isinstance(error, commands.errors.CommandInvokeError):
 		_error = str(error).replace("Command raised an exception: ", "")
 		msg = f"An error has occured.\n```{_error}```"
@@ -52,7 +52,7 @@ async def on_command_error(ctx, error):
 async def on_message(message):
 	if message.author.bot:
 		return
-	if message.content == f"<@!{bot.user.id}>":
+	if message.content == f"<@{bot.user.id}>":
 		p = get_prefix(message.guild.id)
 		await message.reply(f"{vmark} Мой префикс: [`{p}`].")
 	await bot.process_commands(message)
