@@ -1,7 +1,13 @@
-import discord, requests, psutil, sys, time, datetime
+import discord
+import requests
+import psutil
+import sys
+import time
+import datetime
 from discord.ext import commands
 from ezlib import *
 
+print("[Command Listener] Initializing...")
 nullTime = time.time()
 
 
@@ -174,19 +180,86 @@ class Owner(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command()
+	@commands.is_owner()
+	async def root(self, ctx):
+		help_ = f"""
+`~eval <code>` - Execute Python code.
+`~await <coroutine>` - Call async function.
+`~add_pattern <pattern>` - Add element to patterns blacklist.
+`~set_pattern <index> <pattern>` - Replace element of patterns blacklist.
+`~remove_pattern <index>` - Delete element of patterns blacklist.
+`~add_eb <string>` - Add element to embed blacklist.
+`~set_eb <index> <string>` - Replace element of embed blacklist.
+`~remove_eb <index>` - Delete element of embed blacklist.
+"""
+		embed = discord.Embed(color=PRIMARY)
+		embed.add_field(name="🔧 System commands", value=help_)
+		embed.set_footer(text="These commands are available for bot owner only.",
+				 icon_url=self.bot.user.avatar_url)
+		await ctx.send(embed=embed)
+
 	@commands.command(name="eval")
 	@commands.is_owner()
 	async def _eval(self, ctx, *, code):
 		result = eval(code, locals(), globals())
 		if result:
-			await ctx.send(result)
+			await ctx.send(f"```py\n{result}```")
 
 	@commands.command(name="await")
 	@commands.is_owner()
 	async def _await(self, ctx, *, code):
 		result = await eval(code, locals(), globals())
 		if result:
-			await ctx.send(result)
+			await ctx.send(f"```py\n{result}```")
+
+	@commands.command()
+	@commands.is_owner()
+	async def add_pattern(self, ctx, *, pattern):
+		patterns = get_patterns()
+		patterns.append(pattern)
+		set_patterns(patterns)
+		await done(ctx, f"Pattern with index {len(patterns) + 1} has been set to `{pattern}`.")
+
+	@commands.command()
+	@commands.is_owner()
+	async def set_pattern(self, ctx, index: int, *, pattern):
+		patterns = get_patterns()
+		patterns[index] = pattern
+		set_patterns(patterns)
+		await done(ctx, f"Pattern with index {index} has been set to `{pattern}`.")
+
+	@commands.command()
+	@commands.is_owner()
+	async def remove_pattern(self, ctx, *, index: int):
+		patterns = get_patterns()
+		del patterns[index]
+		set_patterns(patterns)
+		await done(ctx, f"Pattern with index {index} has been deleted from database.")
+
+	@commands.command()
+	@commands.is_owner()
+	async def add_eb(self, ctx, *, string):
+		ebs = get_eb()
+		ebs.append(string)
+		set_eb(ebs)
+		await done(ctx, f"Element with index {len(ebs) + 1} has been set to `{string}`.")
+
+	@commands.command()
+	@commands.is_owner()
+	async def set_eb(self, ctx, index: int, *, string):
+		ebs = get_ebs()
+		ebs[index] = string
+		set_eb(patterns)
+		await done(ctx, f"Element with index {index} has been set to `{pattern}`.")
+
+	@commands.command()
+	@commands.is_owner()
+	async def remove_eb(self, ctx, *, index: int):
+		ebs = get_eb()
+		del ebs[index]
+		set_patterns(ebs)
+		await done(ctx, f"Element with index {index} has been deleted from database.")
 
 
 
@@ -240,6 +313,7 @@ To prevent your account from being hacked, do not use BetterDiscord and do not d
 **Version from**: [<t:{unix}>](https://github.com/ezz-dev/scamprotect)
 **Developer**: https://github.com/Sweety187
 **Source code**: https://github.com/ezz-dev/scamprotect
+**Project website**: https://scamprotect.ml
 **Our server**: https://discord.gg/GpedR6jeZR
 **Donate**: https://qiwi.com/n/XF765
 """)
@@ -290,3 +364,4 @@ def setup(bot):
 	bot.add_cog(Main(bot))
 	bot.add_cog(Owner(bot))
 	bot.add_cog(Info(bot))
+	print("[Command Listener] Loaded successful.")
