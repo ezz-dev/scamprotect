@@ -1,7 +1,7 @@
 # ScamProtect
 A Discord bot written in Python, created to protect your server from "Steam Nitro" and etc. scam messages.
 
-**To make this bot fully works you need an stable always-online PHP webserver to store your bot settings and other data**.
+**To make this bot fully works you need a stable always-online PHP webserver to store your bot settings and other data**.
 
 ### Current features:
  - Embed scanning;
